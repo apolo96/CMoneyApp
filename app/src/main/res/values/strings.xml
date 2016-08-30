@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">CMoneyApp</string>
+    <string name="hintConvertir">Ingrese el valor a convertir</string>
+    <string name="sbtnConvertir">Convertir</string>
+    <string name="dolar">Dolar</string>
+    <string name="libraE">Libra Esterlina</string>
+    <string name="yen">Yen</string>
+    <string-array name="money">
+        <item>--Selecione una moneda--</item>
+        <item>Peso Colombiano</item>
+        <item>Dolar Canadiense</item>
+    </string-array>
+</resources>

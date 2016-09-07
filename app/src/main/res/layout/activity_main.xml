@@ -12,25 +12,28 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number"
+        android:inputType="textMultiLine"
         android:ems="10"
         android:hint="@string/hintConvertir"
         android:id="@+id/editText"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:lines="3"
+        android:maxLines="0"
+        android:gravity="center"
+        android:textSize="22dp"
+        />
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spMoney"
-        android:layout_below="@+id/editText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="40dp"
         android:spinnerMode="dialog"
         android:gravity="center"
-        />
+        android:layout_below="@+id/editText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         style="@style/AppTheme.Button"
@@ -61,8 +64,7 @@
         android:id="@+id/checkBox2"
         android:layout_below="@+id/spMoney"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="40dp" />
+        android:layout_alignParentStart="true" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -72,5 +74,17 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/checkBox2"
         android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="$$"
+        android:id="@+id/textView"
+        android:layout_below="@+id/checkBox"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center"
+        android:textSize="25dp"
+        android:textIsSelectable="false" />
 
 </RelativeLayout>

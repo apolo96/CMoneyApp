@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.jsoup.nodes.Document;
 
@@ -24,15 +25,13 @@ public class MainActivity extends AppCompatActivity {
     public static String htmlResult = "";
     private String a = "1";
     private Spinner spMoney;
-
+    private ArrayList<Divisa> divisas = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         // Spinner
         spMoney = (Spinner) findViewById(R.id.spMoney);
-        setDivisas();
         spMoney.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -50,23 +49,21 @@ public class MainActivity extends AppCompatActivity {
         ParseWeb html = new ParseWeb();
         html.execute();
 
-
     }
 
-    public void setDivisas(){
-        ArrayList<Divisa> divisas = new ArrayList<>();
-        divisas.add(new Divisa("1","EURO"));
-        divisas.add(new Divisa("2","YEN"));
-        divisas.add(new Divisa("3","DOLAR"));
+    public void addDivisas(String value, String texto){
+        divisas.add(new Divisa(value,texto));
+    }
+    public void setDivisasSp(ArrayList divisas){
         ArrayAdapter<Divisa> adapter = new ArrayAdapter<Divisa>(this, android.R.layout.simple_spinner_dropdown_item, divisas);
         spMoney.setAdapter(adapter);
     }
-
     public class ParseWeb extends AsyncTask<String, Void, String> {
         public Document doc;
         public String url = "https://www.google.com/finance/converter?a=" + a + "&from=USD&to=EUR";
         public String html;
-
+        public Elements selectOpt;
+        public boolean verityJsoup = true;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -75,14 +72,14 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-//            Log.e("url",url);
             try {
                 doc = Jsoup.connect(url).get();
-//                Elements spans = doc.getElementsByClass("bld");
                 html = doc.getElementsByClass("bld").text().toString();
-//                Log.d("span",html);
+                selectOpt = doc.select("select[name=from]").select("option");
             } catch (IOException e) {
+                verityJsoup = false;
                 Log.e("Error:", e.getMessage().toString());
+                Toast.makeText(getApplicationContext(),"Ocurrio un error , porfavor verifique su conexion a internet",Toast.LENGTH_LONG);
             }
             return "OK";
         }
@@ -90,7 +87,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            if(verityJsoup != true)return;
+            for (Element option: selectOpt) {
+                addDivisas(option.attr("value"),option.text());
+            }
+            setDivisasSp(divisas);
             Toast.makeText(getApplication(), "Inner class" + html, Toast.LENGTH_LONG).show();
+
         }
     }
 }
